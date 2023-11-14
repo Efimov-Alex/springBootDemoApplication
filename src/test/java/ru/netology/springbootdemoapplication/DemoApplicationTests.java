@@ -1,5 +1,6 @@
 package ru.netology.springbootdemoapplication;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ class DemoApplicationTests {
     @BeforeAll
     public static void setUp() {
         devapp.start();
-        prodapp.start();
+   //     prodapp.start();
     }
 
     @Test
@@ -34,6 +35,8 @@ class DemoApplicationTests {
         ResponseEntity<String> forEntity = restTemplate.getForEntity("http://192.168.99.100:"
                 + devapp.getMappedPort(8080) + "/profile", String.class);
         System.out.println(forEntity.getBody());
+
+        Assertions.assertEquals(forEntity.getBody(), "Current profile is dev");
 
     }
 
