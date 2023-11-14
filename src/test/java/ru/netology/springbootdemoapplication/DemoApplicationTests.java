@@ -21,13 +21,14 @@ class DemoApplicationTests {
     private static GenericContainer<?> devapp = new GenericContainer<>("devapp")
             .withExposedPorts(8080);
 
-    private static GenericContainer<?> prodapp = new GenericContainer<>("prodapp:latest")
+    private static GenericContainer<?> prodapp = new GenericContainer<>("prodapp")
             .withExposedPorts(8081);
+
 
     @BeforeAll
     public static void setUp() {
         devapp.start();
-   //     prodapp.start();
+        prodapp.start();
     }
 
     @Test
@@ -43,8 +44,12 @@ class DemoApplicationTests {
     @Test
     void returnProdapp() {
         ResponseEntity<String> forEntity = restTemplate.getForEntity("http://192.168.99.100:"
-                + prodapp.getFirstMappedPort() + "/profile", String.class);
+                + prodapp.getMappedPort(8081) + "/profile", String.class);
         System.out.println(forEntity.getBody());
+
+        Assertions.assertEquals(forEntity.getBody(), "Current profile is production");
     }
+
+
 
 }
