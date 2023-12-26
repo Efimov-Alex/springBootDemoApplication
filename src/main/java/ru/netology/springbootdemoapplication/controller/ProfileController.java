@@ -18,4 +18,9 @@ public class ProfileController {
     public String getProfile() {
         return profile.getProfile();
     }
+
+    @GetMapping("hello")
+    public String getHello() {
+        return "Hello";
+    }
 }
